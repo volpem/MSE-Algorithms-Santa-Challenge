@@ -20,17 +20,19 @@ def make_current_gift_load(gifts):
 
 # Sorts the found load based on weariness.
 def find_gift_to_deliver(current_load_gifts, current_location):
-    current_load_gifts_with_wearinesses = []
+    total_weight_for_weariness = 0
+    current_load_gifts_with_distance = []
     for gift in current_load_gifts:
         gift_weight = gift[3]
         gift_location = (gift[1], gift[2])
         distance = haversine(current_location, gift_location)
-        weariness = distance * (gift_weight + SLEIGH_WEIGHT)
-        current_load_gifts_with_wearinesses.append((gift, weariness))
+        current_load_gifts_with_distance.append((gift, distance))
+        total_weight_for_weariness += gift_weight
 
-    sorted_clgww = sorted(current_load_gifts_with_wearinesses, key=lambda x: x[1])
+    sorted_clgww = sorted(current_load_gifts_with_distance, key=lambda x: x[1])
     gift_to_deliver = sorted_clgww[0][0]
-    gift_to_deliver_weariness = sorted_clgww[0][1]
+    gift_to_deliver_distance = sorted_clgww[0][1]
+    gift_to_deliver_weariness = gift_to_deliver_distance * (total_weight_for_weariness + SLEIGH_WEIGHT)
     return gift_to_deliver, gift_to_deliver_weariness
 
 total_weariness = 0
