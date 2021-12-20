@@ -82,7 +82,7 @@ for trial in range(n):
         if row['TripId'] == trip_id:
             # calculate the cost for the location
             weighted_reindeer_weariness += haversine(row['Position'], previous_stop) * \
-                        (weights_list[trip_id - 1] + 10)  # +10 because of the sleigh weight
+                        (weights_list[trip_id - 1] + SLEIGH_WEIGHT)  # +10 because of the sleigh weight
             # subtract hand out gift
             weights_list[trip_id - 1] -= row['Weight']
             # update previous stop
@@ -94,7 +94,7 @@ for trial in range(n):
             if weights_list[trip_id - 1] > 0.001:  # allow small error rounding error
                 raise Exception("Sleigh has to be empty before going back to north-pole")
             # travel back to the northpole
-            weighted_reindeer_weariness += haversine(NORTH_POLE, previous_stop) * 10  # empty sleigh is 10 kg
+            weighted_reindeer_weariness += haversine(NORTH_POLE, previous_stop) * SLEIGH_WEIGHT  # empty sleigh is 10 kg
             # assign next trip
             trip_id += 1
             weights_list[trip_id - 1] -= row['Weight']
