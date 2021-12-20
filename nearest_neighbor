@@ -6,11 +6,11 @@ NORTH_POLE = (90, 0)
 SLEIGH_CAPACITY_KG = 1000
 SLEIGH_WEIGHT = 10
 
-# From all the gifts, it creates a load that the sleigh can carry, up to 990 Kg.
+# From all the gifts, it creates a load that the sleigh can carry, up to 1000 Kg.
 def make_current_gift_load(gifts):
     current_load_gifts = []
     current_load_weight_kg = 0
-    while current_load_weight_kg + gifts[0][3] < SLEIGH_CAPACITY_KG:
+    while current_load_weight_kg + gifts[0][3] <= SLEIGH_CAPACITY_KG:
         current_gift = gifts.pop(0)
         current_load_gifts.append(current_gift)
         current_load_weight_kg += current_gift[3]
