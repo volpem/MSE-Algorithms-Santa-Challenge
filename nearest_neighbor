@@ -3,9 +3,8 @@ import pandas as pd
 from tqdm import tqdm
 
 NORTH_POLE = (90, 0)
-WEIGHT_LIMIT = 1000
+SLEIGH_CAPACITY_KG = 1000
 SLEIGH_WEIGHT = 10
-SLEIGH_CAPACITY_KG = WEIGHT_LIMIT - SLEIGH_WEIGHT
 
 # From all the gifts, it creates a load that the sleigh can carry, up to 990 Kg.
 def make_current_gift_load(gifts):
@@ -26,7 +25,7 @@ def find_gift_to_deliver(current_load_gifts, current_location):
         gift_weight = gift[3]
         gift_location = (gift[1], gift[2])
         distance = haversine(current_location, gift_location)
-        weariness = distance * gift_weight
+        weariness = distance * (gift_weight + SLEIGH_WEIGHT)
         current_load_gifts_with_wearinesses.append((gift, weariness))
 
     sorted_clgww = sorted(current_load_gifts_with_wearinesses, key=lambda x: x[1])
