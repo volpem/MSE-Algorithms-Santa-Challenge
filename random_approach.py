@@ -45,7 +45,7 @@ for trial in range(n):
     trip_id = 1  # trip_id has to start at 1!
     for index, row in gifts.iterrows():
         # check if more space in santas sledge is available
-        if (current_weight + row['Weight']) < WEIGHT_LIMIT:  # weight limit excluding sleigh base weight
+        if (current_weight + row['Weight']) <= WEIGHT_LIMIT:  # weight limit excluding sleigh base weight
             # add gift weight to sum
             current_weight += row['Weight']
             # assign tripid
