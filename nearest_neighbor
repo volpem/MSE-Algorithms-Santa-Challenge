@@ -45,10 +45,17 @@ current_location = NORTH_POLE
 # makes a cool progress bar ;) 
 pbar = tqdm(total=len(gifts))
 
+submission = pd.DataFrame(columns=["GiftId", "TripId"])
+trip_id = 0
+
 while len(gifts) > 0:
     current_load_gifts = make_current_gift_load(gifts)
     # for the progress bar
     pbar.update(len(current_load_gifts))
+    
+    for current_load_gift in current_load_gifts:
+        submission = submission.append({'GiftId': current_load_gift[0], 'TripId': trip_id}, ignore_index=True)
+    trip_id += 1
 
     while len(current_load_gifts) > 0:
         gift_to_deliver, gift_to_deliver_weariness = find_gift_to_deliver(current_load_gifts, current_location)
@@ -59,4 +66,5 @@ while len(gifts) > 0:
         # after the gift is delivered, it needs to be removed from the gifts list.
         current_load_gifts.pop(index_of_gift_delivered)
 
+submission.to_csv("submission_nn_approach.csv", index=False)
 print(total_weariness)
