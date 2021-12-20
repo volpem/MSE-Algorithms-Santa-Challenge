@@ -50,6 +50,8 @@ submission = pd.DataFrame(columns=["GiftId", "TripId"])
 trip_id = 0
 
 while len(gifts) > 0:
+    current_location = NORTH_POLE
+    
     current_load_gifts = make_current_gift_load(gifts)
     # for the progress bar
     pbar.update(len(current_load_gifts))
@@ -58,6 +60,7 @@ while len(gifts) > 0:
         submission = submission.append({'GiftId': current_load_gift[0], 'TripId': trip_id}, ignore_index=True)
     trip_id += 1
 
+    last_gift_location = (0, 0)
     while len(current_load_gifts) > 0:
         gift_to_deliver, gift_to_deliver_weariness = find_gift_to_deliver(current_load_gifts, current_location)
         total_weariness += gift_to_deliver_weariness
@@ -66,6 +69,9 @@ while len(gifts) > 0:
         index_of_gift_delivered = current_load_gifts.index(gift_delivered)
         # after the gift is delivered, it needs to be removed from the gifts list.
         current_load_gifts.pop(index_of_gift_delivered)
+        last_gift_location = current_location
+    distance_back_to_pole = haversine(last_gift_location, NORTH_POLE)
+    total_weariness += distance_back_to_pole * (SLEIGH_WEIGHT)
 
 submission.to_csv("submission_nn_approach.csv", index=False)
 print(total_weariness)
